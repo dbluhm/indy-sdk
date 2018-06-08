@@ -8,7 +8,7 @@ building block for creating applications that use Hyperledger Indy, you will nee
 
 Installation via `rustup` is recommended. Follow [these instructions](https://www.rust-lang.org/install.html).
 
-Make sure that `cargo` is in your `PATH`.
+Make sure that `cargo` is in your `PATH` (`source $HOME/.cargo/env`).
 
 ### 2. Install required native libraries and utilities
 
@@ -26,16 +26,9 @@ You can find instructions for how to install `homebrew` [here](https://brew.sh/)
 	brew install zeromq
 ```
 
-If you run into issues with 
+If you run into issues with `libzmq`, it may help to also `brew install zmq`.
 
-### 3. Setup environment variables:
-
-export PKG_CONFIG_ALLOW_CROSS=1
-export CARGO_INCREMENTAL=1
-export RUST_LOG=indy=trace
-export RUST_TEST_THREADS=1
-
-### 4. Setup `OPENSSL_DIR` variable
+### 3. Setup `OPENSSL_DIR` variable
 
 Without this environment variable being set, `cargo` can not find OpenSSL. Anything that depends on this library will
 fail.
@@ -46,7 +39,7 @@ export OPENSSL_DIR=/usr/local/Cellar/openssl/1.0.2n   # path changes with versio
 
 **Note that the directory will be different based on the version of `openssl` installed.**
 
-### 5. Checkout and build the library
+### 4. Checkout and build the library
 
 ```sh
 git clone https://github.com/hyperledger/indy-sdk.git
@@ -54,7 +47,7 @@ cd ./indy-sdk/libindy
 cargo build
 ```
 
-### 6. Setup Docker
+### 5. Setup Docker
 
 Docker is used to create 4 Ubuntu instances running the Indy Ledger for testing purposes. In practice, you would
 connect to an actual Sovrin Network. The simple docker test pool allows us to test our installation of `libindy`.
@@ -73,7 +66,7 @@ docker run -itd -p 9701-9708:9701-9708 indy_pool
 and local host. Follow the instructions in the
 [Indy SDK README](https://github.com/hyperledger/indy-sdk#how-to-start-local-nodes-pool-with-docker)
 
-### 7. Run tests
+### 6. Run tests
 ```sh
 RUST_TEST_THREADS=1 cargo test
 ```
