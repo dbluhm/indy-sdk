@@ -80,11 +80,12 @@ First enter the proper directory from the `indy-sdk` directory: `cd cli`
 
 ## Build `indy-cli`
 
-TODO: Say more about RUSTFLAGS
-
 ```sh
 RUSTFLAGS="-L ../libindy/target/debug" cargo build
 ```
+`indy-cli` is dependent on `libindy` and requires additional flags during build to help it find the correct
+library. The `RUSTFLAGS` variable specifies an additional directory where `cargo` should look for library
+dependencies.
 
 # Running the Python Getting Started Guide
 
@@ -98,14 +99,6 @@ cd samples/python
 brew install python3
 ```
 
-## Downgrade pip 9.0.3
-
-Might not be needed
-
-```sh
-pip3 install --upgrade pip==9.0.3
-```
-
 ## Create Virtual Environment
 
 ```sh
@@ -115,8 +108,15 @@ source env/bin/activate
 
 ## Install Dependencies
 
+`pip` will look in `setup.py` for dependencies and install them into the virtual environment from the previous step.
+
 ```sh
 pip install .
+```
+
+If you have any issues installing dependencies using pip, try downgrading/upgrading to version `9.0.3`:
+```sh
+pip3 install --upgrade pip==9.0.3
 ```
 
 ## Export `LD_LIBRARY_PATH`
