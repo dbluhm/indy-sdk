@@ -30,7 +30,7 @@ If you run into issues with `libzmq`, it may help to also `brew install zmq`.
 
 ### 3. Setup `OPENSSL_DIR` variable
 
-Without this environment variable being set, `cargo` can not find OpenSSL. Anything that depends on this library will
+Without this environment variable being set, `cargo` cannot find OpenSSL. Anything that depends on this library will
 fail.
 
 ```sh
@@ -53,7 +53,7 @@ Docker is used to create 4 Ubuntu instances running the Indy Ledger for testing 
 connect to an actual Sovrin Network. The simple docker test pool allows us to test our installation of `libindy`.
 
 Follow the instructions [here](https://store.docker.com/editions/community/docker-ce-desktop-mac) to install
-Docker for MacOS.
+Docker for MacOS (and make sure Docker is running).
 
 Then build and run the docker files with the following commands (from the `indy-sdk` directory):
 
@@ -62,14 +62,15 @@ docker build -f ci/indy-pool.dockerfile -t indy_pool .
 docker run -itd -p 9701-9708:9701-9708 indy_pool
 ```
 
-**Note:** In order to run local nodes on MacOS, it may be necessary to set up port mapping between the Docker container
-and local host. Follow the instructions in the
+**Note:** If you run into issues, try following the instrutions in this link. In order to run local nodes on MacOS,
+it may be necessary to set up port mapping between the Docker container and local host. Follow the instructions in the
 [Indy SDK README](https://github.com/hyperledger/indy-sdk#how-to-start-local-nodes-pool-with-docker)
 
 ### 6. Run tests
 ```sh
 RUST_TEST_THREADS=1 cargo test
 ```
+The tests may take awhile to complete.
 
 # Building and Running `indy-cli`
 
@@ -87,6 +88,16 @@ RUSTFLAGS="-L ../libindy/target/debug" cargo build
 library. The `RUSTFLAGS` variable specifies an additional directory where `cargo` should look for library
 dependencies.
 
+The genesis transaction block is used as the first block on the indy ledger. It is used by `indy-cli` but must be
+modified to run on MacOS. Open `docker_pool_transactions_genesis`, and replace each of 8 occurences of 
+`10.0.0.2` with `127.0.0.1`
+
+Run the the cli:
+
+```sh
+target/debug/indy-cli
+```
+
 # Running the Python Getting Started Guide
 
 ```sh
@@ -100,6 +111,9 @@ brew install python3
 ```
 
 ## Create Virtual Environment
+
+A Python virtual environment is used keep a local copy of all the package dependencies that are needed for a
+particular project without modifying the global packages. This keeps things cleaner and helps prevent errors.
 
 ```sh
 python3 -m venv env
@@ -116,10 +130,14 @@ pip install .
 
 If you have any issues installing dependencies using pip, try downgrading/upgrading to version `9.0.3`:
 ```sh
-pip3 install --upgrade pip==9.0.3
+pip install --upgrade pip==9.0.3
 ```
 
 ## Export `LD_LIBRARY_PATH`
+
+`LD_LIBRARY_PATH` provides the Python wrapper with the path to libindy in Rust, and is necessary for the wrapper
+to work properly.
+
 ```sh
 export LD_LIBRARY_PATH=/path/to/indy-sdk/libindy/target/debug
 ```
