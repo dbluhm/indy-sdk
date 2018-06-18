@@ -112,13 +112,14 @@ brew install python3
 
 ## Create Virtual Environment
 
-A Python virtual environment is used keep a local copy of all the package dependencies that are needed for a
-particular project without modifying the global packages. This keeps things cleaner and helps prevent errors.
+A Python virtual environment is used keep a local copy of all the package dependencies that are needed for a particular project without modifying the global packages. This keeps things cleaner and helps prevent errors.
 
 ```sh
 python3 -m venv env
 source env/bin/activate
 ```
+
+From this point forward, you can get the right version of Python with `python` and `pip` (no 3 required) because they now refer to the virtual environment's copy of Python.
 
 ## Install Dependencies
 
@@ -139,7 +140,7 @@ pip install --upgrade pip==9.0.3
 to work properly.
 
 ```sh
-export LD_LIBRARY_PATH=/path/to/indy-sdk/libindy/target/debug
+export LD_LIBRARY_PATH=/<path_to_indy-sdk>/libindy/target/debug
 ```
 
 ## Run the Guide
