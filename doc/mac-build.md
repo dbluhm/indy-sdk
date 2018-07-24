@@ -1,7 +1,7 @@
 # Setup Indy SDK build environment for MacOS
 
 `libindy` provides the c-callable interface to which all wrappers and the `indy-cli` connect. Since it is the most basic
-building block for creating applications that use Hyperledger Indy, you will need to install it first..
+building block for creating applications that use Hyperledger Indy, you will need to install it first.
 
 ## Building `libindy`
 ### 1. Install Rust
